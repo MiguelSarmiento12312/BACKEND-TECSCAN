@@ -1,7 +1,7 @@
 // loginController.js
 
 import bcrypt from 'bcrypt';
-import Medico from '../models/Medico'; // Importa el modelo de Medico
+import Medico from '../models/Medico.js';
 
 const loginController = {
   login: async (req, res) => {
