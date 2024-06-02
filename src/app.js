@@ -7,6 +7,7 @@ import pacienteRoutes from './routes/pacienteRoutes.js';
 import citaRoutes from './routes/citaRoutes.js';
 import encuestaRoutes from './routes/encuestaRoutes.js';
 import reporteRoutes from './routes/reporteRoutes.js';
+import loginController from './controllers/loginController.js'; // Importa el controlador de inicio de sesión
 
 const app = express();
 
@@ -20,6 +21,9 @@ app.use('/pacientes', pacienteRoutes);
 app.use('/citas', citaRoutes);
 app.use('/encuestas', encuestaRoutes);
 app.use('/reportes', reporteRoutes);
+
+// Ruta para el inicio de sesión
+app.post('/medicos/login', loginController.login);
 
 app.get('/', (req, res) => {
     res.send('Welcome to the medical app server');
