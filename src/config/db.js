@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Configuración del pool de conexiones
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -13,19 +12,19 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
-  connectTimeout: 10000,  // 10 segundos de tiempo de espera
-  acquireTimeout: 10000   // 10 segundos de tiempo de espera para adquirir una conexión
+  connectTimeout: 10000,
+  acquireTimeout: 10000
 });
 
-pool.on('connection', function (connection) {
+pool.on('connection', (connection) => {
   console.log('Database connection established');
-  connection.on('error', function (err) {
+  connection.on('error', (err) => {
     console.error('MySQL error', err);
     if (err.code === 'PROTOCOL_CONNECTION_LOST') {
       handleDisconnect();
     }
   });
-  connection.on('close', function (err) {
+  connection.on('close', (err) => {
     console.error('MySQL close', err);
     handleDisconnect();
   });
@@ -37,7 +36,7 @@ async function handleDisconnect() {
     console.log('Reconnected to the database');
   } catch (err) {
     console.error('Error reconnecting to the database:', err);
-    setTimeout(handleDisconnect, 2000); // Intentar reconectar después de 2 segundos
+    setTimeout(handleDisconnect, 2000);
   }
 }
 
