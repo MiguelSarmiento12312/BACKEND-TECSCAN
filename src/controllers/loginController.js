@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import pool from '../database.js';
+import pool from '../config/db.js';
 
 const loginController = {
   login: async (req, res) => {
