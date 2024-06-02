@@ -1,7 +1,7 @@
 // loginController.js
 
-const bcrypt = require('bcrypt');
-const Medicos = require('../models/medicos'); // Importa el modelo de médicos
+import bcrypt from 'bcrypt';
+import { Medicos } from '../models/medicos'; // Importa el modelo de médicos
 
 const loginController = {
   login: async (req, res) => {
@@ -33,4 +33,4 @@ const loginController = {
   }
 };
 
-module.exports = loginController;
+export default loginController;
