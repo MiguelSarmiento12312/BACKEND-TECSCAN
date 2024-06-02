@@ -1,15 +1,13 @@
-// app.js
-
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { sequelize } from './config/db.js'; // Importa la instancia de Sequelize
+import { pool } from './config/db.js'; // Utilizamos pool en lugar de sequelize para MySQL
 import medicoRoutes from './routes/medicoRoutes.js';
 import pacienteRoutes from './routes/pacienteRoutes.js';
 import citaRoutes from './routes/citaRoutes.js';
 import encuestaRoutes from './routes/encuestaRoutes.js';
 import reporteRoutes from './routes/reporteRoutes.js';
-import loginController from './controllers/loginController.js'; // Importa el controlador de inicio de sesión
+import loginController from './controllers/loginController.js';
 
 const app = express();
 
@@ -33,13 +31,7 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-// Sincroniza los modelos con la base de datos
-sequelize.sync().then(() => {
-  console.log('Models synchronized with database');
-  // Inicia el servidor
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-}).catch(err => {
-  console.error('Error synchronizing models with database:', err);
+// El pool de conexión para MySQL ya está configurado en db.js, así que no necesitamos sincronizar modelos
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
