@@ -1,5 +1,3 @@
-// app.js
-
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -15,13 +13,12 @@ app.use(bodyParser.json());
 // Rutas
 app.use('/medicos', medicoRoutes);
 
-// Ruta raíz
 app.get('/', (req, res) => {
-    res.send('Welcome to the medical app server');
+  res.send('Welcome to the medical app server');
 });
 
-// Puerto
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

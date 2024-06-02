@@ -1,11 +1,8 @@
-// medicoRoutes.js
+import express from 'express';
+import loginController from '../controllers/loginController.js';
 
-import { Router } from 'express';
-import { loginMedico } from '../controllers/medicoController.js';
+const router = express.Router();
 
-const router = Router();
-
-// Ruta para el inicio de sesión
-router.post('/login', loginMedico);
+router.post('/login', loginController.login);
 
 export default router;
