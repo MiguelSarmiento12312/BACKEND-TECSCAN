@@ -1,7 +1,7 @@
 // loginController.js
 
 import bcrypt from 'bcrypt';
-import { Medicos } from '../models/Medico.js'; // Importa el modelo de médicos
+import Medico from '../models/Medico'; // Importa el modelo de Medico
 
 const loginController = {
   login: async (req, res) => {
@@ -9,7 +9,7 @@ const loginController = {
 
     try {
       // Busca al médico por correo electrónico en la base de datos
-      const medico = await Medicos.findOne({ where: { email } });
+      const medico = await Medico.findOne({ where: { email } });
 
       // Si el médico no existe, devolver un mensaje de error
       if (!medico) {

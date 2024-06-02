@@ -1,6 +1,6 @@
 // Medico.js
 
-class Medico {
+const Medico = {
     constructor(nombre, apellido, email, password) {
       this.nombre = nombre;
       this.apellido = apellido;
