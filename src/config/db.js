@@ -11,35 +11,22 @@ const pool = mysql.createPool({
   port: process.env.DB_PORT,
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0,
-  connectTimeout: 10000,
-  acquireTimeout: 10000
+  queueLimit: 0
 });
 
 pool.on('connection', (connection) => {
   console.log('Database connection established');
   connection.on('error', (err) => {
-    console.error('MySQL error', err);
     if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-      handleDisconnect();
+      console.error('Database connection was closed.');
     }
-  });
-  connection.on('close', (err) => {
-    console.error('MySQL close', err);
-    handleDisconnect();
+    if (err.code === 'ER_CON_COUNT_ERROR') {
+      console.error('Database has too many connections.');
+    }
+    if (err.code === 'ECONNREFUSED') {
+      console.error('Database connection was refused.');
+    }
   });
 });
 
-async function handleDisconnect() {
-  try {
-    await pool.getConnection();
-    console.log('Reconnected to the database');
-  } catch (err) {
-    console.error('Error reconnecting to the database:', err);
-    setTimeout(handleDisconnect, 2000);
-  }
-}
-
-handleDisconnect();
-
-export { pool };
+export default pool;

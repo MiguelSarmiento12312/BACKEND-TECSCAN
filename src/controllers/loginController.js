@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { pool } from '../config/db.js';
+import pool from '../database.js';
 
 const loginController = {
   login: async (req, res) => {
@@ -13,7 +13,6 @@ const loginController = {
       }
 
       const medico = rows[0];
-
       const passwordMatch = await bcrypt.compare(password, medico.password);
 
       if (!passwordMatch) {
@@ -22,7 +21,7 @@ const loginController = {
 
       return res.status(200).json({ success: true, message: 'Inicio de sesión exitoso' });
     } catch (error) {
-      console.error(error);
+      console.error('Error during login:', error);
       return res.status(500).json({ success: false, message: 'Error en el servidor' });
     }
   }
