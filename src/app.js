@@ -33,5 +33,5 @@ const PORT = process.env.PORT || 3000;
 
 // El pool de conexión para MySQL ya está configurado en db.js, así que no necesitamos sincronizar modelos
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
