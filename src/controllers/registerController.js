@@ -1,4 +1,6 @@
+import bcrypt from 'bcrypt';
 import { check, validationResult } from 'express-validator';
+import { pool } from '../config/db.js';
 
 const registerValidator = [
   check('nombre').notEmpty().withMessage('El nombre es requerido'),
