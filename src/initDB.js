@@ -20,11 +20,11 @@ const createTables = async () => {
         });
 
         const createDatabaseQuery = `
-            CREATE DATABASE IF NOT EXISTS medical_app;
+            CREATE DATABASE IF NOT EXISTS railway;
         `;
 
         const useDatabaseQuery = `
-            USE medical_app;
+            USE railway;
         `;
 
         const createMedicosTable = `
