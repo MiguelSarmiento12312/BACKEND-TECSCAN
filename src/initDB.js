@@ -21,6 +21,9 @@ const createTables = async () => {
 
         const createDatabaseQuery = `
             CREATE DATABASE IF NOT EXISTS medical_app;
+        `;
+
+        const useDatabaseQuery = `
             USE medical_app;
         `;
 
@@ -98,6 +101,7 @@ const createTables = async () => {
         `;
 
         await connection.query(createDatabaseQuery);
+        await connection.query(useDatabaseQuery);
         await connection.query(createMedicosTable);
         await connection.query(createPacientesTable);
         await connection.query(createCitasTable);
