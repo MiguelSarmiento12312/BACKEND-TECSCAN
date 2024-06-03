@@ -18,8 +18,6 @@ const medicoController = {
       return res.status(500).json({ success: false, message: 'Error en el servidor' });
     }
   },
-
-  // Otros métodos para actualizar o eliminar información del médico
 };
 
 export default medicoController;
