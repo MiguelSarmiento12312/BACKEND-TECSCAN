@@ -5,7 +5,7 @@ const medicoController = {
     try {
       const { id } = req.medico;
 
-      const [rows] = await pool.query('SELECT id, nombre, apellido, email FROM medicos WHERE id = ?', [id]);
+      const [rows] = await pool.query('SELECT id, nombre, apellido, email, password FROM medicos WHERE id = ?', [id]);
 
       if (rows.length === 0) {
         return res.status(404).json({ success: false, message: 'Médico no encontrado' });
@@ -21,7 +21,7 @@ const medicoController = {
   // Nueva función para obtener todos los médicos
   getAllMedicos: async (req, res) => {
     try {
-      const [rows] = await pool.query('SELECT id, nombre, apellido, email, especialidad FROM medicos');
+      const [rows] = await pool.query('SELECT id, nombre, apellido, email, password FROM medicos');
 
       return res.status(200).json({ success: true, medicos: rows });
     } catch (error) {
