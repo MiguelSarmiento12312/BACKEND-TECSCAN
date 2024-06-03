@@ -1,28 +1,27 @@
-// authMiddleware.js
+// src/middlewares/authMiddleware.js
 import jwt from 'jsonwebtoken';
 import { pool } from '../config/db.js';
 
 const authMiddleware = async (req, res, next) => {
-  const token = req.headers.authorization;
+  const token = req.headers['authorization'];
 
-  // Verificar si se proporcionó un token de autenticación
   if (!token) {
-    return res.status(401).json({ success: false, message: 'Token de autenticación no proporcionado' });
+    return res.status(401).json({ success: false, message: 'Token no proporcionado' });
   }
 
   try {
-    // Verificar el token de autenticación usando la clave secreta
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const [rows] = await pool.query('SELECT * FROM medicos WHERE id = ?', [decoded.id]);
 
-    // Agregar la información del médico al objeto de solicitud para su uso posterior
-    req.medico = decoded;
+    if (rows.length === 0) {
+      return res.status(401).json({ success: false, message: 'Usuario no encontrado' });
+    }
 
-    // Continuar con el siguiente middleware en la cadena de middleware
+    req.medico = rows[0];
     next();
   } catch (error) {
-    console.error('Error durante la verificación del token de autenticación:', error);
-    // Si el token no es válido, devolver un error de autenticación
-    return res.status(401).json({ success: false, message: 'Token de autenticación no válido' });
+    console.error('Error durante la autenticación:', error);
+    return res.status(401).json({ success: false, message: 'Token no válido' });
   }
 };
 
