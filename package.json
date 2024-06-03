@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/app.js",
-    "start": "node src/app.js"
+    "start": "npm run migrate && node src/app.js",
+    "migrate": "node initDB.js"
   },
   "keywords": [],
-  "author": "Tu Nombre o Equipo",
+  "author": "TECSCAN",
   "license": "ISC",
   "description": "Servidor backend para la aplicación médica TecScan.",
   "dependencies": {
