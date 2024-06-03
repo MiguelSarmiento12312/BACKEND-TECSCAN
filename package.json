@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/app.js",
-    "start": "npm run migrate && nodemon src/app.js",
-    "migrate": "NODE_ENV=production node src/initDB.js"
+    "start": "npm run migrate && node src/app.js",
+    "migrate": "node src/initDB.js"
   },
   "keywords": [],
   "author": "TECSCAN",
