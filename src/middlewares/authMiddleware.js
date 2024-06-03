@@ -12,7 +12,7 @@ const authMiddleware = async (req, res, next) => {
 
     // Si no se encuentra ningún médico con el correo electrónico proporcionado, devolver un error de autenticación
     if (rows.length === 0) {
-      return res.status(401).json({ success: false, message: 'Credenciales incorrectas' });
+      return res.status(401).json({ success: false, message: 'Credencial incorrectas' });
     }
 
     // Obtener el primer médico encontrado (debería ser único debido a la restricción UNIQUE en la columna email)
