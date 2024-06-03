@@ -1,4 +1,3 @@
-// src/controllers/medicoController.js
 import { pool } from '../config/db.js';
 
 const medicoController = {
@@ -15,6 +14,18 @@ const medicoController = {
       return res.status(200).json({ success: true, medico: rows[0] });
     } catch (error) {
       console.error('Error al obtener la información del médico:', error);
+      return res.status(500).json({ success: false, message: 'Error en el servidor' });
+    }
+  },
+
+  // Nueva función para obtener todos los médicos
+  getAllMedicos: async (req, res) => {
+    try {
+      const [rows] = await pool.query('SELECT id, nombre, apellido, email, especialidad FROM medicos');
+
+      return res.status(200).json({ success: true, medicos: rows });
+    } catch (error) {
+      console.error('Error al obtener la lista de médicos:', error);
       return res.status(500).json({ success: false, message: 'Error en el servidor' });
     }
   },

@@ -15,4 +15,7 @@ router.post('/login', loginController.login);
 // Ruta protegida que utiliza el middleware de autenticación
 router.get('/info', authMiddleware, medicoController.getMedicoInfo);
 
+// Ruta para obtener todos los médicos
+router.get('/', medicoController.getAllMedicos);
+
 export default router;
