@@ -3,19 +3,24 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const MYSQL_URL = process.env.MYSQL_URL;
+const DB_HOST = process.env.DB_HOST;
+const DB_NAME = process.env.DB_NAME;
+const DB_PASSWORD = process.env.DB_PASSWORD;
+const DB_PORT = process.env.DB_PORT;
+const DB_USER = process.env.DB_USER;
 
 const createTables = async () => {
     try {
-        // Establecer la conexión usando la URL de MySQL especificada en el archivo .env
-        const connection = await createConnection(MYSQL_URL);
+        const connection = await createConnection({
+            host: DB_HOST,
+            user: DB_USER,
+            password: DB_PASSWORD,
+            database: DB_NAME,
+            port: DB_PORT,
+        });
 
-        // Consultas para crear la base de datos y las tablas
         const createDatabaseQuery = `
             CREATE DATABASE IF NOT EXISTS medical_app;
-        `;
-
-        const useDatabaseQuery = `
             USE medical_app;
         `;
 
@@ -92,9 +97,7 @@ const createTables = async () => {
             );
         `;
 
-        // Ejecutar las consultas
         await connection.query(createDatabaseQuery);
-        await connection.query(useDatabaseQuery);
         await connection.query(createMedicosTable);
         await connection.query(createPacientesTable);
         await connection.query(createCitasTable);
@@ -103,10 +106,8 @@ const createTables = async () => {
         await connection.query(createNegociosTable);
         await connection.query(createContactosTable);
 
-        // Cerrar la conexión después de completar las operaciones
-        await connection.end();
-
         console.log('Database and tables created successfully');
+        await connection.end();
     } catch (error) {
         console.error('Error creating database and tables:', error);
     }
