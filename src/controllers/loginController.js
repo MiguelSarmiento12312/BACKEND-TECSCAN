@@ -1,8 +1,45 @@
+// loginController.js
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { pool } from '../config/db.js';
+
 const loginController = {
-    login: async (req, res) => {
-      return res.status(200).json({ success: true, message: 'Inicio de sesión exitoso' });
+  login: async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+      // Buscar al médico en la base de datos por su correo electrónico
+      const [rows] = await pool.query('SELECT * FROM medicos WHERE email = ?', [email]);
+
+      // Si no se encuentra ningún médico con el correo electrónico proporcionado, devolver un error de autenticación
+      if (rows.length === 0) {
+        return res.status(401).json({ success: false, message: 'Credenciales incorrectas' });
+      }
+
+      // Obtener el primer médico encontrado (debería ser único debido a la restricción UNIQUE en la columna email)
+      const medico = rows[0];
+
+      // Comparar la contraseña proporcionada con la contraseña almacenada en la base de datos
+      const passwordMatch = await bcrypt.compare(password, medico.password);
+
+      // Si las contraseñas no coinciden, devolver un error de autenticación
+      if (!passwordMatch) {
+        return res.status(401).json({ success: false, message: 'Credenciales incorrectas' });
+      }
+
+      // Generar un token de autenticación usando JWT
+      const token = jwt.sign({ id: medico.id, email: medico.email }, process.env.JWT_SECRET, {
+        expiresIn: '1h' // El token expira en 1 hora
+      });
+
+      // Devolver el token de autenticación como respuesta
+      return res.status(200).json({ success: true, token });
+    } catch (error) {
+      console.error('Error durante el inicio de sesión:', error);
+      // Si hay un error durante el proceso de inicio de sesión, devolver un error de servidor
+      return res.status(500).json({ success: false, message: 'Error en el servidor' });
     }
-  };
-  
-  export default loginController;
-  
+  }
+};
+
+export default loginController;

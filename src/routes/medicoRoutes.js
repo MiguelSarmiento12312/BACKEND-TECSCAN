@@ -1,9 +1,10 @@
 import express from 'express';
+import medicoController from '../controllers/medicoController.js';
 import authMiddleware from '../middlewares/authMiddleware.js';
-import loginController from '../controllers/loginController.js';
 
 const router = express.Router();
 
-router.post('/login', authMiddleware, loginController.login);
+// Ruta para iniciar sesión de médico
+router.post('/login', authMiddleware, medicoController.login);
 
 export default router;
