@@ -29,4 +29,4 @@ pool.on('connection', (connection) => {
   });
 });
 
-export default pool;
+export { pool };
