@@ -1,6 +1,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import medicoRoutes from './routes/medicoRoutes.js'; // Asegúrate de que la ruta es correcta
+import dotenv from 'dotenv';
+
+// Cargar variables de entorno desde el archivo .env
+dotenv.config();
 
 const app = express();
 
