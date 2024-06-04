@@ -8,7 +8,7 @@ const loginController = {
 
     try {
       // Buscar al médico en la base de datos por su correo electrónico
-      const [rows] = await pool.query('SELECT * FROM medicos WHERE email = ?', [email]);
+      const [rows] = await pool.query('SELECT id, nombre, apellido, email, password FROM medicos WHERE email = ?', [email]);
 
       // Si no se encuentra ningún médico con el correo electrónico proporcionado, devolver un error de autenticación
       if (rows.length === 0) {
@@ -35,8 +35,17 @@ const loginController = {
         expiresIn: '1h' // El token expira en 1 hora
       });
 
-      // Devolver el token de autenticación como respuesta
-      return res.status(200).json({ success: true, token });
+      // Devolver el token de autenticación y la información del médico como respuesta
+      return res.status(200).json({ 
+        success: true, 
+        token,
+        medico: {
+          id: medico.id,
+          nombre: medico.nombre,
+          apellido: medico.apellido,
+          email: medico.email
+        }
+      });
     } catch (error) {
       console.error('Error durante el inicio de sesión:', error);
       // Si hay un error durante el proceso de inicio de sesión, devolver un error de servidor
