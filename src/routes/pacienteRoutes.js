@@ -1,8 +1,9 @@
 import express from 'express';
-import { getPacienteByQR } from '../controllers/pacientes.js';
+import { getPacienteByNumeroIdentificacion } from '../controllers/pacienteController';
 
 const router = express.Router();
 
-router.post('/scan', getPacienteByQR);
+// Ruta para escanear un código QR y obtener los datos del paciente
+router.post('/pacientes/scan', getPacienteByNumeroIdentificacion);
 
 export default router;
