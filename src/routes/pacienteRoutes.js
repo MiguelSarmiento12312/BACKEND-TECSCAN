@@ -4,6 +4,6 @@ import { getPacientes } from '../controllers/pacienteController.js';
 const router = express.Router();
 
 // Ruta para obtener todos los pacientes
-router.get('/pacientes', getPacientes);
+router.get('/', getPacientes);
 
 export default router;
