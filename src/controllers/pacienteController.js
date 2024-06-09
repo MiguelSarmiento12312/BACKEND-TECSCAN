@@ -1,19 +1,13 @@
 import { pool } from '../config/db.js';
 
-export const getPacientes = async (req, res) => {
+export const getPacienteByQR = async (req, res) => {
+    const { numero_identificacion } = req.body;
     try {
-        const [rows] = await pool.query('SELECT * FROM pacientes');
-        res.json(rows);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-};
-
-export const createPaciente = async (req, res) => {
-    const { nombre, apellido, fecha_nacimiento, numero_identificacion } = req.body;
-    try {
-        const [result] = await pool.query('INSERT INTO pacientes (nombre, apellido, fecha_nacimiento, numero_identificacion) VALUES (?, ?, ?, ?)', [nombre, apellido, fecha_nacimiento, numero_identificacion]);
-        res.json({ id: result.insertId, nombre, apellido, fecha_nacimiento, numero_identificacion });
+        const [rows] = await pool.query('SELECT * FROM pacientes WHERE numero_identificacion = ?', [numero_identificacion]);
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'Paciente no encontrado' });
+        }
+        res.json(rows[0]);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

@@ -1,9 +1,8 @@
-import { Router } from 'express';
-import { getPacientes, createPaciente } from '../controllers/pacienteController.js';
+import express from 'express';
+import { getPacienteByQR } from '../controllers/pacientes.js';
 
-const router = Router();
+const router = express.Router();
 
-router.get('/', getPacientes);
-router.post('/', createPaciente);
+router.post('/scan', getPacienteByQR);
 
 export default router;
