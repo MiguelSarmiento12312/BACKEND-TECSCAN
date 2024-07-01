@@ -15,18 +15,14 @@ const createTables = async () => {
             host: DB_HOST,
             user: DB_USER,
             password: DB_PASSWORD,
-            database: DB_NAME,
             port: DB_PORT,
         });
 
-        const createDatabaseQuery = `
-            CREATE DATABASE IF NOT EXISTS railway;
-        `;
+        // Create database if not exists
+        await connection.query(`CREATE DATABASE IF NOT EXISTS ${DB_NAME}`);
+        await connection.query(`USE ${DB_NAME}`);
 
-        const useDatabaseQuery = `
-            USE railway;
-        `;
-
+        // Define table creation queries
         const createMedicosTable = `
             CREATE TABLE IF NOT EXISTS medicos (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -81,39 +77,17 @@ const createTables = async () => {
             );
         `;
 
-        const createNegociosTable = `
-            CREATE TABLE IF NOT EXISTS negocios (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                nombre VARCHAR(100) NOT NULL,
-                direccion VARCHAR(255),
-                telefono VARCHAR(20)
-            );
-        `;
-
-        const createContactosTable = `
-            CREATE TABLE IF NOT EXISTS contactos (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                nombre VARCHAR(100) NOT NULL,
-                apellido VARCHAR(100),
-                email VARCHAR(100),
-                telefono VARCHAR(20)
-            );
-        `;
-
-        await connection.query(createDatabaseQuery);
-        await connection.query(useDatabaseQuery);
+        // Execute table creation queries
         await connection.query(createMedicosTable);
         await connection.query(createPacientesTable);
         await connection.query(createCitasTable);
         await connection.query(createDetallesEncuestaTable);
         await connection.query(createReportesTable);
-        await connection.query(createNegociosTable);
-        await connection.query(createContactosTable);
 
-        console.log('Database and tables created successfully');
+        console.log('Tables created successfully');
         await connection.end();
     } catch (error) {
-        console.error('Error creating database and tables:', error);
+        console.error('Error creating tables:', error);
     }
 };
 
